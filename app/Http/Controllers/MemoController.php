@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Memo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
+use Termwind\Components\Raw;
 
 class MemoController extends Controller
 
@@ -38,5 +40,24 @@ class MemoController extends Controller
     {
         $memo = Memo::find($id);
         return view('memos.show', ['memo' => $memo]);
+    }
+
+    public function edit($id)
+    {
+        $memo = Memo::find($id);
+        return view('memos.edit', ['memo' => $memo]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        // 更新対象データの取得
+        $memo = Memo::find($id);
+
+        $memo->title = $request->title;
+        $memo->body = $request->body;
+        $memo->save();
+
+        // 登録したらindexに戻る
+        return redirect(route('memos.index'));
     }
 }
