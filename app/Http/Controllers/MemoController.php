@@ -7,12 +7,20 @@ use Illuminate\Http\Request;
 class MemoController extends Controller
 
 {
-public function show($id)
-
+public function index()
 {
+    //全件取得
+    $memos = Memo::all();
+    return view('memos.index', ['memos' => $memos]);
+}
 
-    $memo =Memo::find($id);
-    return view('memos.show',['memo' =>$memo]);
+
+
+
+public function show($id)
+{
+$memo = Memo::find($id);
+return view('memos.show', ['memo' => $memo]);
 
 }
 
